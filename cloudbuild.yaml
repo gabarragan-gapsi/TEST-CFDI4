@@ -1,0 +1,28 @@
+steps:
+  # build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      ["build", "-t", "gcr.io/tracking-project-319703/cfdi4-cloud-run:${SHORT_SHA}", "."]
+    # push the container image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/tracking-project-319703/cfdi4-cloud-run"]
+    # deploy container image to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "beta",
+        "run",
+        "deploy",
+        "cfdi4-cloud-run",
+        "--image",
+        "gcr.io/tracking-project-319703/cfdi4-cloud-run:${SHORT_SHA}",
+        "--region",
+        "us-central1",
+        "--allow-unauthenticated",
+      ]
+    env:
+      - "PORT=8080"
+images:
+  - gcr.io/tracking-project-319703/cfdi4-cloud-run
+options:
+ logging: CLOUD_LOGGING_ONLY
