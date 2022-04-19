@@ -1,11 +1,11 @@
 FROM node:15
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/cfdi4/app
 
 ENV PORT 8080
 ENV HOST 0.0.0.0
 
-COPY src/package*.json ./
+COPY package*.json ./
 
 RUN npm install --only=production
 
