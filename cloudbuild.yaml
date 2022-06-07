@@ -2,10 +2,10 @@ steps:
   # build the container image
   - name: "gcr.io/cloud-builders/docker"
     args:
-      ["build", "-t", "gcr.io/pocconsubanco/cfdi4-cloud-run:${SHORT_SHA}", "."]
+      ["build", "-t", "gcr.io/crp-dev-apigee-integrador/cfdi4-cloud-run:${SHORT_SHA}", "."]
     # push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/pocconsubanco/cfdi4-cloud-run"]
+    args: ["push", "gcr.io/crp-dev-apigee-integrador/cfdi4-cloud-run"]
     # deploy container image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
     args:
@@ -15,7 +15,7 @@ steps:
         "deploy",
         "cfdi4-cloud-run",
         "--image",
-        "gcr.io/pocconsubanco/cfdi4-cloud-run:${SHORT_SHA}",
+        "gcr.io/crp-dev-apigee-integrador/cfdi4-cloud-run:${SHORT_SHA}",
         "--region",
         "us-central1",
         "--allow-unauthenticated",
@@ -23,6 +23,6 @@ steps:
     env:
       - "PORT=8080"
 images:
-  - gcr.io/pocconsubanco/cfdi4-cloud-run
+  - gcr.io/crp-dev-apigee-integrador/cfdi4-cloud-run
 options:
  logging: CLOUD_LOGGING_ONLY
