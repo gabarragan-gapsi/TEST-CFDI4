@@ -14,7 +14,7 @@
      try {
          if(!db){
              const { initializeApp, cert } = require('firebase-admin/app');
-             //const serviceAccount = require('../../cdfi-ab3bc-firebase-adminsdk-ysem0-035c62fd81.json');
+             const serviceAccount = require('../../' + process.env.SERVICEACCOUNTFIRESTORE);
              initializeApp({
                  credential: cert(serviceAccount) //,
                  //databaseURL: 'https://cdfi-ab3bc-default-rtdb.firebaseio.com/'

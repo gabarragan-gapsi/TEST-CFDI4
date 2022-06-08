@@ -13,7 +13,7 @@
  const { getAuth } = require('firebase/auth');
  
  //const { APIKEY,AUTHDOMAIN,PROJECTID,STORAGEBUCKET,MESSAGINGSENDERID,APPID,MEASUREMENTID } = process.env;
- 
+
  const firebaseApp = initializeApp({
    apiKey: process.env.DB_API_KEY,
    authDomain: process.env.DB_AUTH_DOMAIN,
