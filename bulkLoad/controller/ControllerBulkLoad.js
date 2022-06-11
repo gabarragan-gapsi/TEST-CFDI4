@@ -13,9 +13,9 @@
  
  const bulkLoadValidator = require("../validators/ValidatorBulkLoad");
  const bulkLoadBusiness = require("../business/BusinessBulkLoad");
- 
+ const auth = require('../../security/controller/authenticator.controller');
 
-router.post("/cfdi4/invoice-load", async(req, res,next) => {
+router.post("/cfdi4/invoice-load", auth.verifyToken, async(req, res,next) => {
     
     /*Step 1:  Se valida los campos entrada*/
     const result = await bulkLoadValidator.validateBulkLoad(req, res);

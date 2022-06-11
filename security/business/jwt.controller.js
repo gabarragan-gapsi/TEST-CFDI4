@@ -12,12 +12,12 @@ const jwt = require('jsonwebtoken');
 
 const getJwtToken = async function(payload) {
     //console.log(payload);
-    return jwt.sign({payload}, 'secretkey', { expiresIn: '3d' });
+    return jwt.sign({payload}, process.env.SECRET_JWT_EXPIRES, { expiresIn: process.env.SECRET_JWT_EXPIRES });
 };
 
 const verifyToken = async function(userToken) {
     return new Promise((resolve, reject) => {
-        jwt.verify(userToken, 'secretkey', (err, decoded) => {
+        jwt.verify(userToken, process.env.SECRET_JWT_EXPIRES, (err, decoded) => {
             if (err) {
                 reject(err);
             } else {
