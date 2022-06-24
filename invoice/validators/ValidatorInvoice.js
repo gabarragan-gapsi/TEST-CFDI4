@@ -10,6 +10,7 @@
  **/
 
  const utils = require('../../commons/utils/Utils');
+ const invoicePersistence = require('../persistence/PersistenceInvoice');
 
  exports.validateRFCInvoice = async (req,res) => {
     
@@ -27,8 +28,9 @@
                     description: "RFC is requerired"
                 })
         }
-        
-        if(await !utils.isRFCValid(rfc)) {
+        //let validFRC = await utils.isRFCValid(rfc)
+        let validFRC = true;
+        if(!validFRC) {
             success = false;
             return res.status(400)
                 .json({
@@ -80,7 +82,6 @@ exports.validateCreateInvoice = async (req,res) => {
 
         /** Step 2: Se validan formato correcto del RFC */
         let validFRC = await utils.isRFCValid(rfc)
-        
         if(!validFRC){
             success = false;
             return res.status(400)
@@ -101,8 +102,10 @@ exports.validateCreateInvoice = async (req,res) => {
                     description: "Bad format email parameters"
                 })
         }
-        /** Step 4: Se validan campo Regime */   
-        if( Number(regime)  < 600 || Number(regime) > 626){
+        /** Step 4: Se validan campo Regime de los valores permitidos segun BD*/
+        let regimeList = await invoicePersistence.getRegime(req,res) 
+        console.log("Validando: "+ regimeList.propertieValue + " >> " + regime);
+        if(!regimeList.propertieValue.includes(regime)){
             success = false;
             return res.status(400)
                 .json({
@@ -183,17 +186,17 @@ exports.validateUpdateInvoice = async (req,res) => {
 
          /** Step 5: Se validan el campo Regime */
         if(await utils.isNotEmpty(req.body.regime) ){
-            if(await utils.isNumber(req.body.regime)){
-                if( Number(req.body.regime)  < 600 || Number(req.body.regime)  > 626){
-                    success = false;
-                    return res.status(400)
-                        .json({
-                            success: false, 
-                            code:"1004",
-                            description: "Invalid Regime value"
-                    })
-                }
-            } 
+            let regimeList = await invoicePersistence.getRegime(req,res) 
+            console.log("Validando: "+ regimeList.propertieValue + " >> " + regime);
+            if(!regimeList.propertieValue.includes(req.body.regime)){
+                success = false;
+                return res.status(400)
+                    .json({
+                        success: false, 
+                        code:"1005",
+                        description: "Regime value is invalid"
+                })
+            }
         }
        
         /** Step 6: Se validan el campo account_bank */

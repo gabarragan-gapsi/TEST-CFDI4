@@ -20,7 +20,7 @@
  const customerBusiness = require('../business/BusinessInvoice');
  const auth = require('../../security/controller/authenticator.controller');
 
-router.get("/cfdi4/invoice", auth.verifyToken, async(req, res) => {
+router.get("/invoice", auth.verifyToken, async(req, res) => {
    
     /*Step 1:  Se valida los campos entrada*/
     const result = await customerValidators.validateRFCInvoice(req, res);
@@ -31,7 +31,7 @@ router.get("/cfdi4/invoice", auth.verifyToken, async(req, res) => {
     }
 });
 
-router.post("/cfdi4/invoice", auth.verifyToken, jsonParser, async(req, res) => {
+router.post("/invoice", auth.verifyToken, jsonParser, async(req, res) => {
     
     /*Step 1:  Se valida los campos entrada*/
     const result = await customerValidators.validateCreateInvoice(req, res);
@@ -43,7 +43,7 @@ router.post("/cfdi4/invoice", auth.verifyToken, jsonParser, async(req, res) => {
     
 });
 
-router.put("/cfdi4/invoice", auth.verifyToken, jsonParser, async(req, res) => {
+router.put("/invoice", auth.verifyToken, jsonParser, async(req, res) => {
     
     /*Step 1:  Se valida los campos entrada*/
     const result = await customerValidators.validateUpdateInvoice(req, res);
@@ -55,7 +55,7 @@ router.put("/cfdi4/invoice", auth.verifyToken, jsonParser, async(req, res) => {
     
 });
 
-router.delete("/cfdi4/invoice", auth.verifyToken, async(req, res) => {
+router.delete("/invoice", auth.verifyToken, async(req, res) => {
     
     /*Step 1:  Se valida los campos entrada*/
     const result = await customerValidators.validateRFCInvoice(req, res);

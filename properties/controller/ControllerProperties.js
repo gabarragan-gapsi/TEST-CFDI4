@@ -21,7 +21,7 @@
  const auth = require('../../security/controller/authenticator.controller');
 
 
-router.get("/cfdi4/properties",auth.verifyToken, async(req, res) => {
+router.get("/properties",auth.verifyToken, async(req, res) => {
     
     /*Step 1:  Se valida los campos entrada*/
     const result = await propertiesValidators.validateGetProperties(req, res);
@@ -32,7 +32,7 @@ router.get("/cfdi4/properties",auth.verifyToken, async(req, res) => {
     }
 });
 
-router.post("/cfdi4/properties", auth.verifyToken, jsonParser, async(req, res) => {
+router.post("/properties", auth.verifyToken, jsonParser, async(req, res) => {
     
     /*Step 1:  Se valida los campos entrada*/
     const result = await propertiesValidators.validateCreateProperties(req, res);
@@ -44,7 +44,7 @@ router.post("/cfdi4/properties", auth.verifyToken, jsonParser, async(req, res) =
     
 });
 
-router.put("/cfdi4/properties", auth.verifyToken, jsonParser, async(req, res) => {
+router.put("/properties", auth.verifyToken, jsonParser, async(req, res) => {
     
     /*Step 1:  Se valida los campos entrada*/
     const result = await propertiesValidators.validateGetProperties(req, res);
