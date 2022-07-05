@@ -151,7 +151,12 @@ exports.getInvoiceByRFC = async (req,res) => {
         if(req.body.postal_code != undefined || req.body.postal_code == ""){
             Object.assign(data2, {postal_code: req.body.postal_code});
         }
-       
+        if(req.body.email != undefined || req.body.email == ""){
+            Object.assign(data2, {email: req.body.email});
+        }
+        if(req.body.account_bank != undefined || req.body.account_bank == ""){
+            Object.assign(data2, {account_bank: req.body.account_bank});
+        }
         console.log(JSON.stringify(data2));
 
         await updateDoc(doc(db,'invoices',note2._id),data2);

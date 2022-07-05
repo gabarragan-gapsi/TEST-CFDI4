@@ -49,7 +49,7 @@ router.put("/invoice", auth.verifyToken, jsonParser, async(req, res) => {
     const result = await customerValidators.validateUpdateInvoice(req, res);
     console.log("Salida PUT: " + result);
     /*Step 2:  Si es existo, pasamos el procesos a la Capa de Negocio*/
-    if(result){
+    if(result === true){
         await customerBusiness.updateInvoice(req,res);
     }
     

@@ -130,10 +130,11 @@ exports.validateCreateInvoice = async (req,res) => {
 
 exports.validateUpdateInvoice = async (req,res) => {
     
-    let rfc = null;
+    let rfc,name, regime = null;
     let success = true;
     try {
         req.query.rfc == undefined ? rfc = undefined : rfc = req.query.rfc;
+        
         /** Step 1: Se validan el campo RFC, como requerido  */
         if(await utils.isEmpty(rfc) ){
             success = false;
@@ -146,7 +147,7 @@ exports.validateUpdateInvoice = async (req,res) => {
         }
         
         /** Step 2: Se validan el campo Name */
-        if(await utils.isNotEmpty(req.body.name)){
+        if(req.body.name != undefined || req.body.name == ""){
             if (await utils.isNumber(req.body.name)){
                 success = false;
                 return res.status(400)
@@ -159,7 +160,7 @@ exports.validateUpdateInvoice = async (req,res) => {
         }
         
         /** Step 3: Se validan el campo Postal Code  */
-        if(await utils.isNotEmpty(req.body.postal_code)){
+        if(req.body.postal_code != undefined || req.body.postal_code == ""){
             if (await utils.isNumber(req.body.postal_code)){
                 success = false;
                 return res.status(400)
@@ -172,7 +173,7 @@ exports.validateUpdateInvoice = async (req,res) => {
         }
 
         /** Step 4: Se validan el campo Email  */
-        if(await utils.isNotEmpty(req.body.email) ){
+        if(req.body.email != undefined || req.body.email == ""){
             if (await !utils.isEmail(req.body.email)){
                 success = false;
                 return res.status(400)
@@ -184,10 +185,10 @@ exports.validateUpdateInvoice = async (req,res) => {
             }
         }
 
-         /** Step 5: Se validan el campo Regime */
-        if(await utils.isNotEmpty(req.body.regime) ){
+        /** Step 5: Se validan el campo Regime */
+        if(req.body.regime != undefined || req.body.regime == ""){
             let regimeList = await invoicePersistence.getRegime(req,res) 
-            console.log("Validando: "+ regimeList.propertieValue + " >> " + regime);
+            console.log("Validando: "+ regimeList.propertieValue + " >> " + req.body.regime);
             if(!regimeList.propertieValue.includes(req.body.regime)){
                 success = false;
                 return res.status(400)
@@ -200,7 +201,7 @@ exports.validateUpdateInvoice = async (req,res) => {
         }
        
         /** Step 6: Se validan el campo account_bank */
-        if(await utils.isNotEmpty(req.body.account_bank)){
+        if(req.body.account_bank != undefined || req.body.account_bank == ""){
             if(await utils.isNumber(req.body.account_bank)){
                 success = false;
                 return res.status(400)
