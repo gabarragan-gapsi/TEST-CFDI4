@@ -259,3 +259,40 @@ exports.getInvoiceByRFC = async (req,res) => {
         })
     }
  };
+
+ exports.getGenericFRC = async (req,res) => {
+    try {
+        
+        const db = getFirestore();
+        let note2 = "";
+        let resultData= false;
+
+        /*Step 1: Se realiza una busqueda a BD por el RFC de cliente.*/
+        result = collection(db, 'properties');
+        queryData = query(result, where("propertieKey", "==", "RFC_GENERIC"));
+        let docs = await getDocs(queryData);
+        docs.forEach((doc) => {   
+            note2=doc.data();
+            resultData = true
+        });
+        
+        /*Step 2: Se envia respuesta del servicio, si fue exitoso o no.*/
+        if(resultData){
+            return note2
+        }else{
+            return res.status(400)
+            .json({
+                success: false,
+                code:2001, 
+                description: "RFC Generic Properties does not exists in BD"
+            })
+        }
+    } catch(e){
+        console.log('e :>> ', e);
+        return res.status(500)
+            .json({
+                success: false, 
+                description: "An unexpected server side error has occurred"
+        })
+    }
+ };

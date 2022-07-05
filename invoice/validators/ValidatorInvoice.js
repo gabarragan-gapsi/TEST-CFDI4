@@ -39,7 +39,6 @@
                     description: "RFC invalid format"
                 })
         }
-    
         /** Step 2: Si la validacion es correcta retorno cursor. */
         return success;
     } catch (error) {
@@ -92,6 +91,19 @@ exports.validateCreateInvoice = async (req,res) => {
                 })
         }
         
+        /** Step 4: Se validan campo Regime de los valores permitidos segun BD*/
+        let rfcGenericList = await invoicePersistence.getGenericFRC(req,res) 
+        console.log("Validando RFC: "+ rfcGenericList.propertieValue + " >> " + rfc);
+        if(rfcGenericList.propertieValue.includes(rfc)){
+            success = false;
+            return res.status(400)
+                .json({
+                    success: false, 
+                    code:"1005",
+                    description: "RFC is Generic."
+            })
+        }
+
         /** Step 4: Se validan campo email */
         if(await !utils.isEmail(email) ){
             success = false;
@@ -102,7 +114,8 @@ exports.validateCreateInvoice = async (req,res) => {
                     description: "Bad format email parameters"
                 })
         }
-        /** Step 4: Se validan campo Regime de los valores permitidos segun BD*/
+
+        /** Step 5: Se validan campo RFC que no FRC validos de tipo generico*/
         let regimeList = await invoicePersistence.getRegime(req,res) 
         console.log("Validando: "+ regimeList.propertieValue + " >> " + regime);
         if(!regimeList.propertieValue.includes(regime)){
